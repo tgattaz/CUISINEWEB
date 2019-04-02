@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon -e js,html server.js",
+    "dev2": "nodemon -e js,html,nj --watch app --ignore app/static/css --ignore app/static/js ./dev.js"
+  },
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "bootstrap": "^4.3.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.17",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.10",
+    "nunjucks": "^3.2.0"
+  }
+}

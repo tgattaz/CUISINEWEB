@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Confirmation d'inscription</title>
+</head>
+
+<body style="margin:50;padding:5">
+  <center>
+  <hr>
+  {% raw %}
+  <h1>Confirmation</h1>
+  <hr>
+  <p><font color="green">Votre compte a été crée avec succès !</font></p>
+  <button type="button" class="btn btn-success mb-2" type="submit" onclick="window.location='/';">Retour à l'accueil</button>
+  </center>
+  {% endraw %}
+</body>
+</html>
+{% endblock %}

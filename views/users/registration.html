@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<html ng-app="Inscription">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscription à la Super Todo-List</title>
+    <script src="/views/users/registration.js"></script>
+</head>
+
+<body ng-controller="mainController" style="margin:50;padding:5">
+  <center>
+  <hr>
+  {% raw %}
+  <h1>Inscription à votre e-todolist</h1>
+  <hr>
+  <form id="formInscr" class="form-inline">
+    <table class="table table-bordered" id="todo-list">
+      <thead class="thead-dark">
+        <tr>
+        <th scope="col">Nom d'utilisateur</th>
+        <th scope="col">Mot de passe</th>
+        <th scope="col">Confirmation</th>
+        <th scope="col"> #</th>
+        </tr>
+      </thead>
+      <tr>
+      <th scope="col">
+        <input type="text" id="nom" class="form-control" placeholder="Nom d'utilisateur" ng-model="insData.username" required>
+        <span id="aidenom"></span>
+      </th>
+      <th scope="col">
+        <input type="password" id="pass1" class="form-control" placeholder="Mot de passe" ng-model="insData.password" required>
+        <span id="aidemdp"></span>
+      </th>
+      <th scope="col">
+          <input type="password" id="pass2" class="form-control" placeholder="Mot de passe" ng-model="insData.passwordconf" required>
+          <span id="aidemdp2"></span>
+      </th>
+      <th scope="col">
+        <button type="button" class="btn btn-success mb-2" type="submit" ng-click="createUser()">S'incrire</button>
+      </th>
+      </tr>
+    </table>
+    <font id="warning" color="red"></font>
+  </form>
+  </center>
+  {% endraw %}
+</body>
+</html>
+{% endblock %}

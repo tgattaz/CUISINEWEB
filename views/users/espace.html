@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<html ng-app="ListeGestion">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Espace-utilisateur</title>
+    <script src="/views/users/espace.js"></script>
+</head>
+
+<body ng-controller="mainController" style="margin:50;padding:5">
+  <center>
+  <hr>
+  <div class="row">
+    <div class="col-sm"><h3>Bienvenue sur ton espace {{user.username}} !</h3></div>
+    <div class="col-sm"><button type="submit" id="deconnexion" class="btn btn-warning" onclick="window.location.replace('/');">Déconnexion</button></div>
+  </div>
+  <span id='id' style="display: none;">{{id}}</span>
+  <hr>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3" id="listname_label" style="display: none;"><h4>Nom de la liste:</h4></div>
+    <div class="col-md-auto" id="listname" style="display: none;"><input type="text" class="form-control" name="name" ng-model="listData.name"></div>
+    <div class="col-sm-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3" id="listdesc_label" style="display: none;"><h4>Description:</h4></div>
+    <div class="col-md-auto" id="listdesc" style="display: none;"><input type="text" class="form-control" name="description" ng-model="listData.description"></div>
+    <div class="col-sm-2"></div>
+  </div>
+  <br />
+  <button type="submit" id="create-list" class="btn btn-success mb-2" ng-click="createList()">Ajouter une liste</button>
+  <hr>
+  Vos listes de tâches :
+  &nbsp&nbsp&nbsp
+  <button type="submit" id="create-list" class="btn btn-primary mb-2" onclick="window.location.replace('{{id}}');">↻</button>
+  <br /><br />
+  <table class="table table-bordered" id="todo-list">
+    <thead class="thead-dark">
+      <tr>
+      <th scope="col">Nom de la liste</th>
+      <th scope="col">Description</th>
+      <th scope="col"> #</th>
+      </tr>
+    </thead>
+
+  {% for l in user.listes %}
+    <tr>
+    <th scope="col">
+      N°{{loop.index}} :
+      {{l.name}}
+      <span style="display: none;">{{l._id}}</span>
+    </th>
+    <th scope="col">
+      {{l.description}}
+    </th>
+    <th scope="col">
+      <button type="button" class="btn btn-success" type="submit" onclick="window.location.href='/todolists/#?list={{l._id}}'">Consulter</button>
+      <button type="submit" id="add-collab-{{loop.index}}" class="btn btn-info" ng-click="addCollab('{{l._id}}','{{user.listes.length}}')"> + collab </button>
+      <button type="submit" id="delete-list" class="btn btn-danger" ng-click="deleteList('{{l._id}}')"> x </button>
+    </th>
+    </tr>
+    {% endfor %}
+  </table>
+  <table id="collab-tab" class="table table-bordered" style="display: none;">
+    <thead class="bg-secondary">
+      <tr>
+      <th scope="col"><font color='white'>Avec qui collaborer ?</font></th>
+      <th scope="col"><input type="text" class="form-control" placeholder="Son pseudo" name="name" ng-model="collabData.name"></th>
+      <th scope="col"><button type="submit" id="add-collab-{{loop.index}}" class="btn btn-primary" ng-click="createCollab()">Collaborer</button></th>
+      <th scope="col"><button type="submit" id="stop-collab" class="btn btn-danger" ng-click="fermerCollab('{{user.listes.length}}')">x</button></th>
+      </tr>
+    </thead>
+  </table>
+  <span><font id="result"></font></span>
+  </div>
+  </center>
+</body>
+</html>
+{% endblock %}

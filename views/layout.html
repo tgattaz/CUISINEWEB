@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>Mes supers todolists</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- le css  avec /css est important, cela dit a express qu'il faut aller cherher ce dossier depuis la racine-->
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+        color:black;
+        background-image:url("/images/image_de_fond.png");
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+    h1 {
+        text-align:center;
+    }
+    </style>
+</head>
+
+<body>
+    <div class='container'>
+        <hr>
+        <a href='/'>
+        <center><img src="/images/logo.png" style="width: 10%"></center>
+        <h1> Mes supers todolists </h1>
+        </a>
+        {% block content %} {% endblock %}
+        <hr>
+        <div class="text-center">
+            T.Gattaz 2019
+        </div>
+        <hr>
+    </div>
+</body>
+</html>

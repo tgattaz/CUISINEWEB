@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<html ng-app="Connexion">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connexion à la Super Todo-List</title>
+    <script src="/views/users/index.js"></script>
+</head>
+
+<body ng-controller="mainController" style="margin:50;padding:5">
+  <center>
+  <hr>
+  {% raw %}
+  <h1>Connexion à votre e-todo online !</h1>
+  <hr>
+  <form class="form-inline">
+    <table class="table table-bordered" id="todo-list">
+      <thead class="thead-dark">
+        <tr>
+        <th scope="col">Nom d'utilisateur</th>
+        <th scope="col">Mot de passe</th>
+        <th scope="col"> #</th>
+        </tr>
+      </thead>
+      <tr>
+      <th scope="col">
+        <input type="text" class="form-control" placeholder="Nom d'utilisateur" ng-model="coData.username">
+      </th>
+      <th scope="col">
+        <input type="password" class="form-control" placeholder="Mot de passe" ng-model="coData.password">
+      </th>
+      <th scope="col">
+        <button type="button" class="btn btn-success mb-2" type="submit" ng-click="connectUser()">Se connecter</button>
+      </th>
+      </tr>
+    </table>
+  </form>
+  </center>
+  <div class="row">
+    <div class="col-6"><a href="/registration">Pas encore inscrit ? Cliquez-ici</a></div>
+    <div class="col-6"><p><font color="{{response.color}}">{{response.text}}</font></p></div>
+  </div>
+  {% endraw %}
+</body>
+</html>
+{% endblock %}
