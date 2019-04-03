@@ -3,9 +3,9 @@ Schema = mongoose.Schema;
 
 var TaskSchema = new Schema({
   text : String,
-  date : String,
+  url : String,
   creator : String,
-  done : Boolean
+  valide : Number
 });
 
 var Task = mongoose.model('Task', TaskSchema);

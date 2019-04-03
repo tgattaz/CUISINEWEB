@@ -1,5 +1,5 @@
 var client = require('mongoose');
-var urlmongo = 'mongodb+srv://user:user@cluster0-zt25f.mongodb.net/todolist';
+var urlmongo = 'mongodb+srv://user:user@cluster0-zt25f.mongodb.net/cuisine';
 var db;
 
 var Todolist = require('./models/Todolist');
@@ -22,8 +22,8 @@ var dataLayer = {
   Task.create({
     text : data.text,
     creator : data.creator,
-    date: Date.now(),
-    done : false
+    url: data.url,
+    valide : 0
   }, function(err, task) {
     if (err)
       cb(err);
@@ -35,6 +35,7 @@ var dataLayer = {
     _id : param.task_id
   },{
     text : data.text,
+    url : data.url,
     creator : data.creator
   }, function(err) {
     if (err)
@@ -42,11 +43,11 @@ var dataLayer = {
     cb();
   });
   },
-  updateDone : function(param,data,cb) {
+  updateValide : function(param,data,cb) {
   Task.updateOne({
     _id : param.task_id
   },{
-    done : data.checked
+    valide : data.valide
   }, function(err) {
     if (err)
         cb(err);
@@ -72,8 +73,14 @@ var dataLayer = {
     Todolist.findByIdAndUpdate(param.id, {$pull: {tasks: param.task_id}}, {'new':false}, cb);
   });
   },
-  getMySpace: function(param,cb) {
-    User.findById(param.id).populate('listes').then(leuser => {cb(leuser)});
+  getMySpace: function(cb) {
+    Todolist.find({ type: 'recettes' }).then(recettes => { Todolist.find({ type: 'restaurants' }).then(restaurants => { cb(recettes,restaurants) });
+    });
+  },
+  isExist: function(data,cb) {
+    User.findById(data.id,function(err, user) {
+      cb(err,user);
+    });
   },
   getList: function(param,cb) {
     Todolist.findById(param.id).populate('tasks').then(theliste => {cb(theliste)});
@@ -81,19 +88,29 @@ var dataLayer = {
   createList: function(param,data,cb) {
     Todolist.create({
       name : data.name,
+      type : data.type,
       description : data.description
     }, function(err, list) {
       if (err)
         cb(err);
-      User.findByIdAndUpdate(param.id, {$push: {listes: list._id}}, {'new':true}, cb);
+      User.findByIdAndUpdate(param.id, {$push: {listes: list._id}}, {'new':true});
+      cb();
+      //User.findByIdAndUpdate('5ca3b24dcf661dc9bc8e28dc', {$push: {listes: list._id}}, {'new':true}, cb);
     });
     },
   editList: function(param,data,cb) {
     Todolist.findByIdAndUpdate(param.id, {name: data.name, description: data.description}, cb);
   },
   deleteList: function(param,cb) {
-    Todolist.findByIdAndDelete(param.id);
-    User.findByIdAndUpdate(param.user, {$pull: {listes: param.id}}, {'new':false}, cb);
+    Todolist.remove({ _id: param.id }, function(err) {
+      if (!err) {
+        cb();
+      }
+      else {
+        cb(err);
+      }
+  });
+    cb();
   },
   createCollab: function(data,cb){
     User.findOne({ username: data.name }).then(user=> {

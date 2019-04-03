@@ -12,6 +12,7 @@ var UserSchema = new Schema({
     password: { type: String, required: true },
     loginAttempts: { type: Number, required: true, default: 0 },
     lockUntil: { type: Number },
+    admin: Boolean,
     listes: [
         {
             type: mongoose.Schema.Types.ObjectId,

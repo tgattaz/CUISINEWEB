@@ -13,6 +13,18 @@ router.get('/confirmation', function(req, res) {
   res.render('users/confirmation.html');
 });
 
+router.post('/isExist', function(req, res){
+  data = req.body;
+  dataLayer.isExist(data, function(err,result){
+    if(err==null){
+      res.send(result);
+    }else{
+      res.send(false);
+    }
+
+  });
+});
+
 router.post('/newUser', function(req, res){
   data = req.body;
   dataLayer.createUser(data,function(result){
@@ -38,10 +50,16 @@ router.post('/collabList', function(req, res) {
   });
 });
 
-router.get('/:id', function(req, res) {
-  param = req.params;
-  dataLayer.getMySpace(param,function(result){
-    res.render('users/espace.html', { user: result, id : param.id });
+router.get('/espace', function(req, res) {
+  dataLayer.getMySpace(function(result1,result2){
+    res.render('users/espace.html', {recettes: result1, restaurants: result2});
+  });
+});
+
+router.post('/todolist', function(req, res) {
+  param = req.body;
+  dataLayer.getList(param,function(laliste){
+    res.render('todolists/index.html', { liste : laliste});
   });
 });
 

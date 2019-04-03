@@ -4,6 +4,7 @@ function mainController($scope, $http) {
   $scope.coData = {};
   $scope.result = {};
   $scope.response = {};
+  $scope.user = {};
 
   $scope.connectUser = function() {
     $http.post('/connectUser', $scope.coData)
@@ -11,11 +12,12 @@ function mainController($scope, $http) {
             $scope.response.text = data;
             if (data!="Utilisateur non trouvé ou mot de passe incorrect" && data!="Tu as atteints la limite d'essais de connexion"){
                 $scope.response.text = 'Bonjour ' + $scope.coData.username + ' ! Redirection sur votre espace en cours ...';
-                setCookie('username', $scope.coData.username, 0.01);
+                $scope.user.id = data.replace(/^"(.*)"$/, '$1');
+                setCookie('cuisinier', $scope.user.id, 0.01);
                 $scope.coData = {};
                 $scope.response.color = 'green';
                 setTimeout(function(){
-                    window.location.replace('/'+data.replace(/^"(.*)"$/, '$1'));
+                    window.location.replace('/espace');
                 }, 2000);
             } else {
                 $scope.response.color = 'red';

@@ -3,6 +3,7 @@ Schema = mongoose.Schema;
 
 var TodolistSchema = new Schema({
   name : String,
+  type : String,
   description : String,
   creator : String,
   tasks: [
