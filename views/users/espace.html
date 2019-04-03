@@ -24,14 +24,15 @@
   <div id='contenu' style="display: none;" >
   <center>
   <hr>
+  {% raw %}
+  <h3>Bienvenue sur ton espace {{user.username}} !</h3>
+  <hr>
   <div class="row">
-    {% raw %}
-    <div class="col-sm"><h3>Bienvenue sur ton espace {{user.username}} !</h3></div>
-    <span class="badge badge-info" ng-show=(isAdmin())><h6>Administrateur</h6></span>
-    <span class="badge badge-secondary" ng-show=(isNormal())><h6>Utilisateur normal</h6></span>
+    <div class="col-sm">{{user.username}} est <label class="badge badge-secondary" ng-show=(isNormal())>Utilisateur normal</label><label class="badge badge-info" ng-show=(isAdmin())>Administrateur</label></div>
     {% endraw %}
     <div class="col-sm"><button type="submit" id="deconnexion" class="btn btn-warning" ng-click="deconnecter()">Déconnexion</button></div>
   </div>
+
   <span id='id' style="display: block;">{{id}}</span>
   <hr>
 
@@ -58,10 +59,12 @@
   <br />
   <div ng-show="isAdmin()"><button type="submit" id="create-list" class="btn btn-success mb-2" ng-click="createList()">Ajouter une liste</button></div>
   <hr>
-  <h3>La listes des recettes :</h3>
-  <button type="submit" id="create-list" class="btn btn-primary mb-2" onclick="window.location.replace('/espace');">↻</button>
-  &nbsp&nbsp&nbsp
-  <br /><br />
+  <div class="row">
+      <div class="col-sm-7"><h3>La listes des recettes :</h3></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-1"><button type="submit" id="create-list" class="btn btn-primary mb-2" onclick="window.location.replace('/espace');">↻</button></div>
+  </div>
+  <br />
   <table class="table table-bordered" id="todo-list">
     <thead class="thead-dark">
       <tr>
@@ -89,10 +92,11 @@
     {% endfor %}
   </table>
   <hr>
-  <h3>La listes des restaurants sur Aix-Marseille :</h3>
-  <button type="submit" id="create-list" class="btn btn-primary mb-2" onclick="window.location.replace('/espace');">↻</button>
-  &nbsp&nbsp&nbsp
-  <br /><br />
+  <div class="row">
+      <div class="col-sm-10"><h3>La listes des restaurants sur Aix-Marseille :</h3></div>
+      <div class="col-sm-1"><button type="submit" id="create-list" class="btn btn-primary mb-2" onclick="window.location.replace('/espace');">↻</button></div>
+  </div>
+  <br />
   <table class="table table-bordered" id="todo-list">
     <thead class="thead-dark">
       <tr>
@@ -128,14 +132,22 @@
       <div class="row">
           <div class="col-sm-2"></div>
           <div class="col-sm-3"><h3>Nom de la liste:</h3></div>
-          <div class="col-md-auto"><div id="listname" style="display: block;" ng-dblclick="editList()"><h3>{{laliste.name}}</h3></div><div id="listname_modify" style="display: none;"><input type="text" class="form-control" name="name" ng-model="listData.name"></div></div>
+          <div class="col-md-auto">
+          <div id="listname" style="display: block;" ng-show="isAdmin()" ng-dblclick="editList()"><h3>{{laliste.name}}</h3></div>
+          <div id="listname" style="display: block;" ng-show="isNormal()"><h3>{{laliste.name}}</h3></div>
+          <div id="listname_modify" style="display: none;"><input type="text" class="form-control" name="name" ng-model="listData.name"></div></div>
           <div class="col-sm-4"><button ng-show="isAdmin()" type="submit" id="modify-list" class="btn btn-success mb-2" ng-click="editList()">Modifier la liste</button>
             <button type="submit" id="close-list" class="btn btn-danger mb-2" ng-click="revenir()">Fermer la liste</button></div>
       </div>
       <div class="row">
           <div class="col-sm-2"></div>
           <div class="col-sm-3"><h3>Description :</h3></div>
-          <div class="col-md-auto"><div id="listdesc" style="display: block;" ng-dblclick="editList()"><h4>{{laliste.description}}</h4></div><div id="listdesc_modify" style="display: none;"><input type="text" class="form-control" name="description" ng-model="listData.description"></div></div>
+          <div class="col-md-auto">
+            <div id="listdesc" style="display: block;" ng-show="isAdmin()" ng-dblclick="editList()"><h4>{{laliste.description}}ee</h4></div>
+            <div id="listdesc" style="display: block;" ng-show="isNormal()"><h4>{{laliste.description}}</h4></div>
+            <div id="listdesc_modify" style="display: none;"><input type="text" class="form-control" name="description" ng-model="listData.description">
+            </div>
+          </div>
       </div>
       <br/>
       <hr>
@@ -151,7 +163,10 @@
           </thead>
           <tr div ng-repeat="x in laliste.tasks">
                   <th scope="col">
-                      <div id="xtext-{{$index}}" style="display: block;" ng-dblclick="modifyTodo($index, x)">
+                      <div id="xtext-{{$index}}" style="display: block;" ng-show="isAdmin()" ng-dblclick="modifyTodo($index, x)">
+                      {{ x.text }}
+                      </div>
+                      <div id="xtext-{{$index}}" style="display: block;" ng-show="isNormal()">
                       {{ x.text }}
                       </div>
                       <div id="xtextmodify-{{$index}}" style="display: none;" class="form-group mx-sm-3 mb-2">
@@ -159,15 +174,23 @@
                       </div>
                   </th>
                   <th scope="col">
-                      <div id="xurl-{{$index}}" style="display: block;" ng-dblclick="modifyTodo($index, x)">
-                      <span class="badge badge-warning"><a href="{{ x.url }}">Lien pour découvrir ça !</a></span>
+                      <div id="xurl-{{$index}}" style="display: block;" ng-show="isAdmin()" ng-dblclick="modifyTodo($index, x)">
+                      <span ng-show='x.url' class="badge badge-warning"><a href="{{ x.url }}">Lien pour découvrir ça !</a></span>
+                      <span ng-show='!x.url' class="badge badge-light">Pas encore de lien pour ça</span>
+                      </div>
+                      <div id="xurl-{{$index}}" style="display: block;" ng-show="isNormal()">
+                      <span ng-show='x.url' class="badge badge-warning"><a href="{{ x.url }}">Lien pour découvrir ça !</a></span>
+                      <span ng-show='!x.url' class="badge badge-light">Pas encore de lien pour ça</span>
                       </div>
                       <div id="xurlmodify-{{$index}}" style="display: none;" class="form-group mx-sm-3 mb-2">
                       <input type="text" class="form-control" name="url" ng-model="modifyData.url">
                       </div>
                   </th>
                   <th scope="col">
-                      <div id="xcreator-{{$index}}" style="display: block;" ng-dblclick="modifyTodo($index, x)">
+                      <div id="xcreator-{{$index}}" style="display: block;" ng-show="isAdmin()" ng-dblclick="modifyTodo($index, x)">
+                      {{ x.creator }}
+                      </div>
+                      <div id="xcreator-{{$index}}" style="display: block;" ng-show="isNormal()">
                       {{ x.creator }}
                       </div>
                       <div id="xcreatormodify-{{$index}}" style="display: none;" class="form-group mx-sm-3 mb-2">
