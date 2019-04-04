@@ -161,7 +161,7 @@
               <th scope="col">Edition</th>
               </tr>
           </thead>
-          <tr div ng-repeat="x in laliste.tasks">
+          <tr class='bg-light' div ng-repeat="x in laliste.tasks">
                   <th scope="col">
                       <div id="xtext-{{$index}}" style="display: block;" ng-show="isAdmin()" ng-dblclick="modifyTodo($index, x)">
                       {{ x.text }}
