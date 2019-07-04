@@ -2,7 +2,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon -e js,html server.js",
-    "dev2": "nodemon -e js,html,nj --watch app --ignore app/static/css --ignore app/static/js ./dev.js"
+    "dev2": "nodemon -e js,html,nj --watch app --ignore app/static/css --ignore app/static/js ./dev.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "main": "app.js",
   "dependencies": {
@@ -12,6 +14,8 @@
     "mongoose": "^5.6.3",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
-    "nunjucks": "^3.2.0"
-  }
+    "nunjucks": "^3.2.0",
+    "snyk": "^1.189.0"
+  },
+  "snyk": true
 }
